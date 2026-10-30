@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة مراجعة اللغة الإنجليزية • الصف العاشر (G10 Upstream & Midterm Revision)</title>
+  <!-- Google Fonts: Cairo, Poppins, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+              950: '#1e1b4b',
+            },
+            accent: {
+              cyan: '#06b6d4',
+              emerald: '#10b981',
+              amber: '#f59e0b',
+              rose: '#f43f5e'
+            }
+          },
+          fontFamily: {
+            cairo: ['Cairo', 'sans-serif'],
+            en: ['Poppins', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Cairo', sans-serif; }
+    .en-text { font-family: 'Poppins', sans-serif; direction: ltr; text-align: left; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 4px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-brand-500 selection:text-white custom-scrollbar">
+
+  <!-- Toast Message -->
+  <div id="toastBox" class="fixed bottom-6 left-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 bg-slate-800 text-white border border-slate-700 px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+    <i class="fa-solid fa-circle-check text-emerald-400 text-xl"></i>
+    <span id="toastMsg" class="text-sm font-bold">تم نسخ المحتوى بنجاح!</span>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('vocab')">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-600 via-indigo-500 to-accent-cyan flex items-center justify-center shadow-lg shadow-brand-500/20">
+            <i class="fa-solid fa-graduation-cap text-white text-2xl"></i>
+          </div>
+          <div>
+            <h1 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              منصة مراجعة اللغة الإنجليزية
+              <span class="text-xs px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 border border-brand-500/30 font-mono">G10 Upstream</span>
+            </h1>
+            <p class="text-xs text-slate-400 font-mono hidden sm:block">Unit 1 Vocabulary, Phrasals, Idioms & Midterm Review</p>
+          </div>
+        </div>
+
+        <!-- Global Search Bar -->
+        <div class="hidden md:flex items-center relative flex-1 max-w-xs mx-4">
+          <i class="fa-solid fa-magnifying-glass absolute right-3 text-slate-400 text-sm"></i>
+          <input type="text" id="searchInput" onkeyup="searchContent()" placeholder="بحث سريع في الكلمات والقواعد..." class="w-full bg-slate-800 text-xs sm:text-sm rounded-xl pr-9 pl-4 py-2 border border-slate-700 focus:outline-none focus:border-brand-500 text-slate-200 placeholder-slate-500">
+        </div>
+
+        <!-- Nav Tabs -->
+        <nav class="hidden lg:flex items-center gap-1.5 text-xs font-bold">
+          <button onclick="switchTab('vocab')" class="tab-btn px-3 py-2 rounded-xl text-brand-300 bg-brand-950/60 border border-brand-600/40 transition flex items-center gap-1.5" data-tab="vocab">
+            <i class="fa-solid fa-house-chimney"></i> المفردات والعمارة
+          </button>
+          <button onclick="switchTab('phrasal')" class="tab-btn px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="phrasal">
+            <i class="fa-solid fa-arrows-split-up-and-left text-accent-cyan"></i> الأفعال الاصطلاحية
+          </button>
+          <button onclick="switchTab('idioms')" class="tab-btn px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="idioms">
+            <i class="fa-solid fa-comment-dots text-accent-amber"></i> التعبيرات وحروف الجر
+          </button>
+          <button onclick="switchTab('grammar')" class="tab-btn px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="grammar">
+            <i class="fa-solid fa-book-open text-accent-emerald"></i> القواعد والقراءة
+          </button>
+          <button onclick="switchTab('quiz')" class="tab-btn px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5" data-tab="quiz">
+            <i class="fa-solid fa-circle-question text-accent-rose"></i> الاختبار التفاعلي (25Q)
+          </button>
+        </nav>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" title="طباعة المراجعة" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+            <i class="fa-solid fa-print"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section & Mandatory Attribution Badges -->
+  <section class="py-10 border-b border-slate-800 bg-gradient-to-b from-slate-900 to-slate-950 text-center relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <!-- Required Attribution Badges -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 mb-5 text-xs sm:text-sm font-semibold">
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-slate-700 text-slate-200 shadow-md">
+          <i class="fa-solid fa-chalkboard-user text-accent-cyan"></i>
+          المعلومات مجمعة بواسطة: <strong class="text-white font-bold">مس رنا</strong>
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-slate-700 text-slate-200 shadow-md">
+          <i class="fa-solid fa-code text-brand-400"></i>
+          الموقع معمول بواسطة: <strong class="text-white font-bold">عبدالرحمن عبدالله</strong>
+        </span>
+        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 border border-slate-700 text-slate-200 shadow-md">
+          <i class="fa-solid fa-wand-magic-sparkles text-accent-amber"></i>
+          برعاية: <strong class="text-white font-bold">نموذج جيميناي (Gemini)</strong>
+        </span>
+      </div>
+
+      <h2 class="text-2xl sm:text-4xl lg:text-5xl font-black text-white leading-tight mb-3">
+        المراجعة النهائية الشاملة لمنهج <span class="text-brand-400">Upstream G10</span>
+      </h2>
+      <p class="max-w-3xl mx-auto text-slate-300 text-xs sm:text-sm leading-relaxed mb-6">
+        شرح مبسط ومفصل باللغة العربية لكل كلمة وقاعدة، مع نطق الكلمات الصوتي، أفعال المصطلحات، حروف الجر الثابتة، واختبار تفاعلي يحاكي امتحان نصف العام بالتصحيح التلقائي.
+      </p>
+
+      <!-- Quick Audio / Stats Banner -->
+      <div class="flex flex-wrap items-center justify-center gap-2 text-xs font-mono">
+        <span class="px-3 py-1 rounded-lg bg-indigo-950 border border-indigo-700/60 text-indigo-300">Unit 1 Housing Vocabulary</span>
+        <span class="px-3 py-1 rounded-lg bg-cyan-950 border border-cyan-700/60 text-cyan-300">Phrasal Verbs (Break, Come, Carry, Bring)</span>
+        <span class="px-3 py-1 rounded-lg bg-amber-950 border border-amber-700/60 text-amber-300">Idioms &amp; Fixed Prepositions</span>
+        <span class="px-3 py-1 rounded-lg bg-emerald-950 border border-emerald-700/60 text-emerald-300">Grammar &amp; Reading Strategies</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+    <!-- ============================================================== -->
+    <!-- 1. VOCABULARY & ARCHITECTURE (HOUSING)                         -->
+    <!-- ============================================================== -->
+    <section id="sec-vocab" class="tab-pane space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-brand-400 text-xs font-bold uppercase tracking-wider font-mono">Unit 1 Vocabulary</span>
+          <h3 class="text-2xl font-black text-white mt-1">مصطلحات البيوت، أنواع الأسقف، والقلاع التاريخية</h3>
+        </div>
+        <button onclick="copySectionText('sec-vocab')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+          <i class="fa-solid fa-copy ml-1"></i> نسخ التلخيص
+        </button>
+      </div>
+
+      <!-- Roofing Types Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/50 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono">Roofing Style</span>
+            <button onclick="speakText('Thatched roof')" class="text-slate-400 hover:text-white" title="استمع للنطق"><i class="fa-solid fa-volume-high"></i></button>
+          </div>
+          <h4 class="text-lg font-bold text-white en-text">Thatched roof</h4>
+          <p class="text-xs text-brand-300 font-bold mt-1">سقف مصنوع من القش والبوص الطبيعي</p>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed en-text">A roof made of straw or reeds (traditional countryside cottages).</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/50 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 font-mono">Roofing Style</span>
+            <button onclick="speakText('Pitched roof')" class="text-slate-400 hover:text-white" title="استمع للنطق"><i class="fa-solid fa-volume-high"></i></button>
+          </div>
+          <h4 class="text-lg font-bold text-white en-text">Pitched roof</h4>
+          <p class="text-xs text-brand-300 font-bold mt-1">سقف منحدر / مائل ليسهل انزلاق الأمطار والجليد</p>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed en-text">A sloping roof built at an angle for rain and snow to fall off easily.</p>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 hover:border-brand-500/50 transition">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-mono">Roofing Style</span>
+            <button onclick="speakText('Tiled roof')" class="text-slate-400 hover:text-white" title="استمع للنطق"><i class="fa-solid fa-volume-high"></i></button>
+          </div>
+          <h4 class="text-lg font-bold text-white en-text">Tiled roof</h4>
+          <p class="text-xs text-brand-300 font-bold mt-1">سقف قرميدي مغطى بقطع طين محروق (Baked clay)</p>
+          <p class="text-xs text-slate-400 mt-2 leading-relaxed en-text">A roof covered with overlapping flat pieces of baked clay tiles.</p>
+        </div>
+      </div>
+
+      <!-- Medieval Castle Architecture & Housing Terms -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h4 class="text-base font-bold text-accent-cyan flex items-center gap-2">
+            <i class="fa-solid fa-chess-rook"></i> عمارة القلاع والحصون القديمة (Medieval Castle Architecture)
+          </h4>
+          <div class="space-y-3 text-xs">
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-start">
+              <div>
+                <b class="text-white text-sm en-text">Moat (الخندق المائي)</b>
+                <p class="text-slate-400 mt-0.5">قناة مائية عميقة وواسعة محفورة حول القلعة لحمايتها من هجمات الغزاة.</p>
+              </div>
+              <button onclick="speakText('Moat')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-start">
+              <div>
+                <b class="text-white text-sm en-text">Keep (الحصن الداخلي الرئيسي)</b>
+                <p class="text-slate-400 mt-0.5">أقوى وأعلى برج حصين في القلعة كان يعيش فيه اللورد أو البارون مع أسرته.</p>
+              </div>
+              <button onclick="speakText('Keep')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex justify-between items-start">
+              <div>
+                <b class="text-white text-sm en-text">Drawbridge (الجسر المتحرك)</b>
+                <p class="text-slate-400 mt-0.5">جسر خشبي فوق الخندق يمكن سحبه ورفعه لأعلى لمنع دخول الأعداء.</p>
+              </div>
+              <button onclick="speakText('Drawbridge')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h4 class="text-base font-bold text-accent-amber flex items-center gap-2">
+            <i class="fa-solid fa-city"></i> أنواع السكن وأوصاف الأماكن المتكررة في الامتحان
+          </h4>
+          <div class="space-y-3 text-xs">
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <b class="text-white text-sm en-text">Spacious × Cramped</b>
+                <button onclick="speakText('Spacious and cramped')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+              </div>
+              <p class="text-slate-300"><b>Spacious:</b> واسع ومريح به غرف متعددة. عكسها <b>Cramped:</b> ضيق ومكتظ لا يتسع للحركة.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <b class="text-white text-sm en-text">Suburbs vs Outskirts</b>
+                <button onclick="speakText('Suburbs and outskirts')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+              </div>
+              <p class="text-slate-300"><b>Suburb:</b> ضاحية سكنية خارج مركز المدينة. <b>Outskirts:</b> الأطراف والحدود الخارجية القصوى للمدينة.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <b class="text-white text-sm en-text">Terraced Houses</b>
+                <button onclick="speakText('Terraced houses')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+              </div>
+              <p class="text-slate-300">منازل متصلة ومتلاصقة في صف واحد تشترك في الجدران الجانبية.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <div class="flex justify-between items-center mb-1">
+                <b class="text-white text-sm en-text">Mow the lawn</b>
+                <button onclick="speakText('Mow the lawn')" class="text-slate-400 hover:text-white"><i class="fa-solid fa-volume-high"></i></button>
+              </div>
+              <p class="text-slate-300">يقص العشب / الحديقة باستخدام ماكينة الجز (Dad is outside mowing the lawn).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- 2. PHRASAL VERBS MASTER                                        -->
+    <!-- ============================================================== -->
+    <section id="sec-phrasal" class="tab-pane hidden space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-accent-cyan text-xs font-bold uppercase tracking-wider font-mono">Phrasal Verbs Mastery</span>
+          <h3 class="text-2xl font-black text-white mt-1">الأفعال الاصطلاحية بالتفصيل (Break, Come, Carry, Bring)</h3>
+        </div>
+        <button onclick="copySectionText('sec-phrasal')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+          <i class="fa-solid fa-copy ml-1"></i> نسخ التلخيص
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Break & Come -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h4 class="text-base font-bold text-brand-400 flex items-center gap-2">
+            <i class="fa-solid fa-burst"></i> عائلة الفعل Break
+          </h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Break into</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يقتحم مكاناً عنوة للسرقة (Burglars broke into our house).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Break out</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يندلع فجأة للحريق أو الحرب أو الوباء (Fire broke out early morning).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Break up</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">تغلق المدرسة للعطلة / يفض علاقة (Schools break up for holidays tomorrow).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Break off</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يقطع فجأة كالعلاقات الدبلوماسية (Broke off diplomatic relations).</span>
+            </div>
+          </div>
+
+          <h4 class="text-base font-bold text-accent-cyan flex items-center gap-2 pt-2">
+            <i class="fa-solid fa-person-walking-arrow-right"></i> عائلة الفعل Come
+          </h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Come down with</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يُصاب بمرض (Come down with the flu / chickenpox).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Come into</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يرث ثروة أو أموالاً (She came into a lot of money).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Come across</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يصادف أو يجد شيئاً بالصدفة (Came across an article).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Come up with</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يبتكر فكرة أو يجد حلاً لمشكلة (Come up with an excellent solution).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Come round</b>
+              <span class="text-accent-cyan font-bold block mt-0.5">يزور شخصاً في منزله (Come round for dinner).</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carry & Bring -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h4 class="text-base font-bold text-accent-teal flex items-center gap-2">
+            <i class="fa-solid fa-person-running"></i> عائلة الفعل Carry
+          </h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Carry out</b>
+              <span class="text-accent-teal font-bold block mt-0.5">ينفذ / يجري تجارب واختبارات (Carry out tests / research).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Carry away</b>
+              <span class="text-accent-teal font-bold block mt-0.5">ينجرف وراء المشاعر والحماس الشديد (The fans got carried away).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Carry on</b>
+              <span class="text-accent-teal font-bold block mt-0.5">يواصل أو يكمل إدارة عمل (Carry on the business).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Carry off</b>
+              <span class="text-accent-teal font-bold block mt-0.5">ينجح في أداء مهمة أو إلقاء خطاب ببراعة (Carried his speech off).</span>
+            </div>
+          </div>
+
+          <h4 class="text-base font-bold text-accent-amber flex items-center gap-2 pt-2">
+            <i class="fa-solid fa-box-open"></i> عائلة الفعل Bring
+          </h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Bring up</b>
+              <span class="text-accent-amber font-bold block mt-0.5">يربي طفلاً ويعتني به (She was brought up by her uncle).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Bring out</b>
+              <span class="text-accent-amber font-bold block mt-0.5">يصدر وينشر ألبوماً أو كتاباً (Brought out their new album).</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Bring back</b>
+              <span class="text-accent-amber font-bold block mt-0.5">يسترجع ويذكر بذكريات قديمة (Brings back memories).</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- 3. IDIOMS & PREPOSITIONS                                       -->
+    <!-- ============================================================== -->
+    <section id="sec-idioms" class="tab-pane hidden space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-accent-amber text-xs font-bold uppercase tracking-wider font-mono">Idiomatic Mastery</span>
+          <h3 class="text-2xl font-black text-white mt-1">التعبيرات الاصطلاحية (Idioms) وحروف الجر الملازمة</h3>
+        </div>
+        <button onclick="copySectionText('sec-idioms')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+          <i class="fa-solid fa-copy ml-1"></i> نسخ التلخيص
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Key Idioms -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <h4 class="text-base font-bold text-accent-amber flex items-center gap-2">
+            <i class="fa-solid fa-icons"></i> التعبيرات الاصطلاحية الشائعة (Exam Idioms)
+          </h4>
+          <div class="space-y-2 text-xs">
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">White lie</b>
+              <p class="text-slate-300 mt-1">كذبة بيضاء غير مؤذية تُقال لتجنب إيذاء مشاعر شخص آخر.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Once in a blue moon</b>
+              <p class="text-slate-300 mt-1">نادراً جداً وفي مناسبات متباعدة للغاية.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Green fingers</b>
+              <p class="text-slate-300 mt-1">موهبة ومهارة فطرية في زراعة النباتات ورعاية الحديقة.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Head in the clouds</b>
+              <p class="text-slate-300 mt-1">شخص غير واقعي وشارد الذهن دائماً ولا ينتبه لما يدور حوله.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Hot under the collar</b>
+              <p class="text-slate-300 mt-1">غاضب ومنفعل جداً بسبب خلاف أو نقاش.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Out and about</b>
+              <p class="text-slate-300 mt-1">يخرج ويتحرك بنشاط بعد فترة من المرض أو التعب.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-xl border border-slate-800">
+              <b class="text-white text-sm en-text">Refuse to play the ball</b>
+              <p class="text-slate-300 mt-1">يرفض التعاون والمشاركة الإيجابية.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fixed Prepositions -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+          <h4 class="text-base font-bold text-accent-cyan flex items-center gap-2">
+            <i class="fa-solid fa-link"></i> حروف الجر المصاحبة للكلمات (Dependent Prepositions)
+          </h4>
+          <div class="space-y-2 text-xs">
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Accused <strong>of</strong></span>
+              <span class="text-slate-300">مُتّهم بارتكاب (Accused him of stealing)</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Charged <strong>with</strong></span>
+              <span class="text-slate-300">موجّه إليه تهمة رسمية (Charged with burglary)</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Dismissed <strong>from</strong></span>
+              <span class="text-slate-300">مفصول أو مُقال من الوظيفة (Dismissed from his job)</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Curious <strong>about</strong></span>
+              <span class="text-slate-300">شديد الفضول لمعرفة (Curious about the world)</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Accustomed <strong>to</strong></span>
+              <span class="text-slate-300">معتاد على مناخ أو أمر ما (Accustomed to the climate)</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Capable <strong>of</strong></span>
+              <span class="text-slate-300">قادر على فعل (Capable of doing it alone)</span>
+            </div>
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+              <span class="en-text text-sm font-bold text-white">Appeal <strong>to</strong></span>
+              <span class="text-slate-300">يعجبه أو يروق له (Country houses appeal to me)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- 4. GRAMMAR & READING STRATEGIES                                -->
+    <!-- ============================================================== -->
+    <section id="sec-grammar" class="tab-pane hidden space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-accent-emerald text-xs font-bold uppercase tracking-wider font-mono">Grammar & Reading Guide</span>
+          <h3 class="text-2xl font-black text-white mt-1">شرح القواعد النحوية ومفاهيم قطعة القراءة المنهجية</h3>
+        </div>
+        <button onclick="copySectionText('sec-grammar')" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300">
+          <i class="fa-solid fa-copy ml-1"></i> نسخ التلخيص
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Grammar -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h4 class="text-base font-bold text-accent-emerald flex items-center gap-2">
+            <i class="fa-solid fa-spell-check"></i> أهم القواعد النحوية في نماذج الامتحانات
+          </h4>
+          <div class="space-y-3 text-xs">
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+              <b class="text-white text-sm">١. أفعال الحالة (Stative Verbs):</b>
+              <p class="text-slate-300 mt-1">أفعال الحواس والرأي (feel, appeal, seem) لا تأتي في صيغة الاستمرار عندما تعبر عن صفة دائمة:
+              <br><span class="en-text text-emerald-400 font-bold">This shirt feels very soft (Not is feeling).</span>
+              <br><span class="en-text text-emerald-400 font-bold">Country houses appeal to me (Not are appealing).</span></p>
+            </div>
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+              <b class="text-white text-sm">٢. المضارع التام المستمر (Present Perfect Continuous):</b>
+              <p class="text-slate-300 mt-1">يستخدم للتعبير عن حدث بدأ في الماضي ومستمر حتى الآن مع التركيز على استغراق المدة الزمنية:
+              <br><span class="en-text text-emerald-400 font-bold">I have been waiting for you for two hours!</span>
+              <br><span class="en-text text-emerald-400 font-bold">He has been trying to find a cleaner for a month now.</span></p>
+            </div>
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+              <b class="text-white text-sm">٣. جداول المواعيد الثابتة (Timetables) مقابل الترتيبات:</b>
+              <p class="text-slate-300 mt-1">
+              • المواعيد الرسمية المجدولة للسينما والقطارات تأتي في <b>المضارع البسيط</b>: <span class="en-text text-white font-bold">The film starts at 7:30.</span>
+              <br>• المواعيد والترتيبات الشخصية المؤكدة تأتي في <b>المضارع المستمر</b>: <span class="en-text text-white font-bold">I am seeing the estate agent at 7:00.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reading Comprehension Guide -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+          <h4 class="text-base font-bold text-accent-cyan flex items-center gap-2">
+            <i class="fa-solid fa-globe"></i> تلخيص قطعة القراءة: استخدام الإنترنت لبناء المعرفة المسبقة
+          </h4>
+          <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs leading-relaxed text-slate-300">
+            <p>
+              <b class="text-white block mb-1">Background Knowledge and Reading Comprehension:</b>
+              تؤكد الأبحاث على مدار ثلاثة عقود أن الطلاب الذين يمتلكون <b>معرفة مسبقة (Background knowledge)</b> بموضوع النص يحققون أعلى الدرجات لأنهم يستوعبون أفكار الكاتب بسهولة.
+            </p>
+            <p>
+              <b class="text-white block mb-1">Strategies for Online Searches:</b>
+              ١. <b>الاهتمام بعناوين الروابط (Website Captions):</b> تدقيق الكلمات المفتاحية في العنوان قبل النقر.<br>
+              ٢. <b>عدم الاعتماد التلقائي على ويكيبيديا (Don't Automatically Go to Wikipedia):</b> لأنها موسوعة مفتوحة يحررها متطوعون وحدثت بها أخطاء فادحة رغم نظام التدقيق الصارم منذ 2009.<br>
+              ٣. <b>استخدام روابط التصفح باعتدال (Use Navigation Links Sparingly):</b> عدم التشتت في صفحات فرعية وتخزين الروابط في المفضلة للعودة إليها لاحقاً.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================== -->
+    <!-- 5. COMPREHENSIVE INTERACTIVE QUIZ (25 REAL EXAM QUESTIONS)     -->
+    <!-- ============================================================== -->
+    <section id="sec-quiz" class="tab-pane hidden space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div>
+          <span class="text-accent-rose text-xs font-bold uppercase tracking-wider font-mono">Exam Simulator</span>
+          <h3 class="text-2xl font-black text-white mt-1">الاختبار التفاعلي الشامل (٢٥ سؤالاً من أوراق المراجعة)</h3>
+        </div>
+        <div id="scoreBadge" class="hidden px-4 py-1.5 bg-brand-950 text-brand-300 border border-brand-700/60 rounded-xl font-bold text-xs font-mono">
+          Score: <span id="scoreNum">0</span> / 25
+        </div>
+      </div>
+
+      <div id="quizContainer" class="space-y-4"></div>
+
+      <div class="flex items-center justify-between pt-6 border-t border-slate-800">
+        <button onclick="submitQuiz()" class="px-8 py-3.5 rounded-xl bg-gradient-to-r from-brand-600 via-indigo-500 to-accent-cyan hover:opacity-90 text-white font-black shadow-lg shadow-brand-500/25 transition text-xs sm:text-sm flex items-center gap-2">
+          <i class="fa-solid fa-check-double"></i> تصحيح الاختبار بالكامل وإظهار التفسيرات
+        </button>
+        <button onclick="resetQuiz()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs transition">
+          <i class="fa-solid fa-rotate-right ml-1"></i> إعادة الاختبار
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer with Required Credits -->
+  <footer class="mt-16 border-t border-slate-800 bg-slate-900 py-10 text-slate-400 text-xs sm:text-sm text-center">
+    <div class="max-w-4xl mx-auto px-4 space-y-4">
+      <div class="flex flex-wrap items-center justify-center gap-3 font-semibold text-xs">
+        <span class="px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-200">
+          المعلومات مجمعة بواسطة: <strong class="text-accent-cyan">مس رنا</strong>
+        </span>
+        <span class="px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-200">
+          الموقع معمول بواسطة: <strong class="text-brand-400">عبدالرحمن عبدالله</strong>
+        </span>
+        <span class="px-4 py-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-200">
+          برعاية: <strong class="text-accent-amber">نموذج جيميناي (Gemini)</strong>
+        </span>
+      </div>
+      <p class="text-slate-500 text-xs">Grade 10 Upstream English Language Revision Hub • Comprehensive First Term Exam Prep</p>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.add('hidden'));
+      const activePane = document.getElementById('sec-' + tabId);
+      if (activePane) {
+        activePane.classList.remove('hidden');
+        window.scrollTo({ top: activePane.offsetTop - 85, behavior: 'smooth' });
+      }
+
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.dataset.tab === tabId) {
+          btn.className = "tab-btn px-3 py-2 rounded-xl text-brand-300 bg-brand-950/60 border border-brand-600/40 transition flex items-center gap-1.5";
+        } else {
+          btn.className = "tab-btn px-3 py-2 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5";
+        }
+      });
+    }
+
+    function triggerToast(text) {
+      const box = document.getElementById('toastBox');
+      document.getElementById('toastMsg').textContent = text;
+      box.classList.remove('translate-y-24', 'opacity-0');
+      box.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        box.classList.add('translate-y-24', 'opacity-0');
+        box.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
+
+    function copySectionText(id) {
+      const sec = document.getElementById(id);
+      if (!sec) return;
+      const temp = document.createElement('textarea');
+      temp.value = sec.innerText;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      document.body.removeChild(temp);
+      triggerToast('تم نسخ محتوى التبويب بنجاح!');
+    }
+
+    function speakText(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(text);
+        utter.lang = 'en-US';
+        utter.rate = 0.9;
+        window.speechSynthesis.speak(utter);
+      } else {
+        triggerToast('خاصية النطق غير مدعومة في متصفحك.');
+      }
+    }
+
+    function searchContent() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (!q) return;
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('hidden'));
+      const targets = document.querySelectorAll('h4, b, p, span');
+      for (let t of targets) {
+        if (t.textContent.toLowerCase().includes(q)) {
+          t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          break;
+        }
+      }
+    }
+
+    // 25 Exam Questions taken directly from the provided revision files
+    const questionsData = [
+      {
+        q: "1. Dad is outside _______ the lawn; go and see if he needs any help.",
+        options: ["mopping", "mowing", "spoiling", "installing"],
+        correct: 1,
+        exp: "تعبير mow the lawn يعني يقص عشب الحديقة بالماكينة."
+      },
+      {
+        q: "2. John and Chris bought a really _______ flat; it's got four bedrooms, an attic and a guest room.",
+        options: ["secure", "tiny", "spacious", "cramped"],
+        correct: 2,
+        exp: "spacious تعني واسعة جداً وتناسب وصف 4 غرف نوم وغرفة ضيوف وعِلّية."
+      },
+      {
+        q: "3. Sharon is quite _______; she keeps to herself and dislikes socializing.",
+        options: ["confident", "conservative", "active", "withdrawn"],
+        correct: 3,
+        exp: "withdrawn تعني منطوية ومنعزلة عن الناس."
+      },
+      {
+        q: "4. Living in the countryside doesn't really _______ to me.",
+        options: ["appeal", "approve", "apply", "convince"],
+        correct: 0,
+        exp: "appeal to me تعني يروق لي أو يعجبني."
+      },
+      {
+        q: "5. Why are you so upset? It was just a _______ lie.",
+        options: ["white", "pink", "blue", "green"],
+        correct: 0,
+        exp: "white lie تعبير اصطلاحي يعني كذبة بيضاء غير مؤذية."
+      },
+      {
+        q: "6. A _______ roof is made of straw or reeds.",
+        options: ["pitched", "tiled", "fiberglass", "thatched"],
+        correct: 3,
+        exp: "thatched roof سقف من القش والبوص."
+      },
+      {
+        q: "7. A _______ roof is a sloping roof for rain and snow to fall off.",
+        options: ["pitched", "tiled", "thatched", "flat"],
+        correct: 0,
+        exp: "pitched roof سقف مائل ومنحدر."
+      },
+      {
+        q: "8. _______ is the opposite of 'spacious'.",
+        options: ["Crammed", "Crumbled", "Crumbed", "Cramped"],
+        correct: 3,
+        exp: "cramped تعني ضيق ومكتظ وهي عكس spacious (واسع)."
+      },
+      {
+        q: "9. The Baron de Vere and his family lived in the _______.",
+        options: ["moat", "ditch", "hut", "keep"],
+        correct: 3,
+        exp: "the keep هو الحصن والبرج الداخلي الرئيسي للقلعة التاريخية."
+      },
+      {
+        q: "10. A _______ is a deep, wide channel dug around a castle and filled with water.",
+        options: ["bungalow", "stilt", "moat", "keep"],
+        correct: 2,
+        exp: "moat الخندق المائي المحفور حول القلعة."
+      },
+      {
+        q: "11. If you are very noticeable, then you stand _______.",
+        options: ["up", "in", "out", "off"],
+        correct: 2,
+        exp: "stand out يعني يبرز ويكون لافتاً للنظر جداً."
+      },
+      {
+        q: "12. He was _______ for non-payment of rent.",
+        options: ["evacuated", "vacated", "evocated", "evicted"],
+        correct: 3,
+        exp: "evicted تم طرده وإخلاؤه من السكن لعدم دفع الإيجار."
+      },
+      {
+        q: "13. John has _______ down with chickenpox.",
+        options: ["broken", "come", "brought", "carried"],
+        correct: 1,
+        exp: "come down with يعني يُصاب بمرض ما."
+      },
+      {
+        q: "14. When Mary's grandfather died, she came _______ a lot of money.",
+        options: ["into", "out", "off", "in"],
+        correct: 0,
+        exp: "come into money تعني يرث أموالاً."
+      },
+      {
+        q: "15. They go to the theatre once in a _______ moon.",
+        options: ["blue", "black", "red", "purple"],
+        correct: 0,
+        exp: "once in a blue moon تعبير يعني نادراً جداً."
+      },
+      {
+        q: "16. She has green _______; you must see her garden.",
+        options: ["fingers", "eyes", "toes", "dimples"],
+        correct: 0,
+        exp: "green fingers تعبير يدل على مهارة الشخص في البستنة وزراعة النباتات."
+      },
+      {
+        q: "17. This shirt _______ very soft. What's it made of?",
+        options: ["is feeling", "has felt", "feels", "felt"],
+        correct: 2,
+        exp: "feel من أفعال الحواس (Stative verbs) ويأتي في المضارع البسيط للتعبير عن الحالة."
+      },
+      {
+        q: "18. The owners have decided to _______ the old castle into a guesthouse.",
+        options: ["change", "redecorate", "convert", "turn"],
+        correct: 2,
+        exp: "convert into تعني يحوّل مبنى لغرض استخدام آخر."
+      },
+      {
+        q: "19. According to an eyewitness, the fire broke _______ early in the morning.",
+        options: ["into", "out", "up", "down"],
+        correct: 1,
+        exp: "break out تعني يندلع فجأة (للحرائق والحروب)."
+      },
+      {
+        q: "20. I _______ for you for two hours!",
+        options: ["have been waiting", "has been", "had been", "was"],
+        correct: 0,
+        exp: "مضارع تام مستمر (Have been waiting) للتعبير عن حدث بدأ في الماضي ومستمر مع مدة زمنية (for two hours)."
+      },
+      {
+        q: "21. The film _______ at 7:30.",
+        options: ["has been starting", "has started", "is starting", "starts"],
+        correct: 3,
+        exp: "جداول المواعيد الرسمية الثابتة (Timetables) تستخدم المضارع البسيط (starts)."
+      },
+      {
+        q: "22. The burglars broke _______ and stole all our valuables.",
+        options: ["out", "down", "into", "away"],
+        correct: 2,
+        exp: "break into يقتحم مكاناً بالكسر للسرقة."
+      },
+      {
+        q: "23. They accused him _______ stealing the car.",
+        options: ["of", "with", "to", "for"],
+        correct: 0,
+        exp: "حرف الجر المصاحب للفعل accuse هو of."
+      },
+      {
+        q: "24. Doctors will carry _______ more tests to find out what the problem is.",
+        options: ["on", "away", "out", "up"],
+        correct: 2,
+        exp: "carry out tests تعني يجري / ينفذ اختبارات وتحاليل."
+      },
+      {
+        q: "25. Helen has her head in the _______; she never notices what's going on.",
+        options: ["sky", "stars", "clouds", "air"],
+        correct: 2,
+        exp: "head in the clouds تعبير يعني شارد الذهن وغير مدرك للواقع."
+      }
+    ];
+
+    function renderQuiz() {
+      const container = document.getElementById('quizContainer');
+      container.innerHTML = '';
+
+      questionsData.forEach((item, idx) => {
+        const card = document.createElement('div');
+        card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3";
+        card.id = `qCard-${idx}`;
+
+        let optsHtml = '';
+        item.options.forEach((opt, oIdx) => {
+          optsHtml += `
+            <label class="flex items-center gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800 hover:border-slate-700 cursor-pointer text-xs sm:text-sm text-slate-200 transition">
+              <input type="radio" name="q-${idx}" value="${oIdx}" class="text-brand-500 focus:ring-0">
+              <span class="en-text font-semibold">${opt}</span>
+            </label>
+          `;
+        });
+
+        card.innerHTML = `
+          <h4 class="font-bold text-white text-xs sm:text-sm en-text leading-relaxed">${item.q}</h4>
+          <div class="space-y-2 pt-1">${optsHtml}</div>
+          <div id="fbBox-${idx}" class="hidden p-3 rounded-xl text-xs leading-relaxed mt-2 font-mono"></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function submitQuiz() {
+      let score = 0;
+
+      questionsData.forEach((item, idx) => {
+        const selected = document.querySelector(`input[name="q-${idx}"]:checked`);
+        const fb = document.getElementById(`fbBox-${idx}`);
+        const card = document.getElementById(`qCard-${idx}`);
+        fb.classList.remove('hidden');
+
+        if (selected) {
+          const val = parseInt(selected.value);
+          if (val === item.correct) {
+            score++;
+            card.classList.add('border-emerald-500/50');
+            card.classList.remove('border-rose-500/50', 'border-amber-500/50');
+            fb.className = "p-3 rounded-xl text-xs bg-emerald-950/40 border border-emerald-500/30 text-emerald-300";
+            fb.innerHTML = `✓ إجابة صحيحة ممتازة! • ${item.exp}`;
+          } else {
+            card.classList.add('border-rose-500/50');
+            card.classList.remove('border-emerald-500/50', 'border-amber-500/50');
+            fb.className = "p-3 rounded-xl text-xs bg-rose-950/40 border border-rose-500/30 text-rose-300";
+            fb.innerHTML = `✗ إجابة خاطئة! الإجابة الصحيحة هي: (${item.options[item.correct]}) • ${item.exp}`;
+          }
+        } else {
+          card.classList.add('border-amber-500/50');
+          fb.className = "p-3 rounded-xl text-xs bg-amber-950/40 border border-amber-500/30 text-amber-300";
+          fb.innerHTML = `! لم تقم بالاختيار! الإجابة الصحيحة هي: (${item.options[item.correct]}) • ${item.exp}`;
+        }
+      });
+
+      const badge = document.getElementById('scoreBadge');
+      document.getElementById('scoreNum').textContent = score;
+      badge.classList.remove('hidden');
+      badge.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      triggerToast(`تم التصحيح! درجتك: ${score} من 25`);
+    }
+
+    function resetQuiz() {
+      renderQuiz();
+      document.getElementById('scoreBadge').classList.add('hidden');
+      triggerToast('تمت إعادة ضبط الاختبار بنجاح.');
+    }
+
+    window.onload = function() {
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
